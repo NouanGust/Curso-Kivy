@@ -1,0 +1,158 @@
+# Definindo a interface gráfica principal, ou seja, a que vai aparecer primeiro
+PageLayoutExample:
+
+# O PageLayout permite navegar entre vários modelos
+<PageLayoutExample@PageLayout>:
+    MainWidget:
+    BoxLayoutExample:
+    AnchorLayoutExample:
+    GridLayoutExample:
+    ScrollViewExample:
+
+
+# O Scroll view não é bem um layout, só pode receber um "filho", e permite dar scroll na página
+<ScrollViewExample@ScrollView>
+    StackLayoutExample:
+        # É preciso definir o tamanho do conteúdo para o scroll funcionar, aqui de forma fixa
+        size_hint: 1, None
+        #height: 4000
+        height: self.minimum_height
+
+
+# Modelo StackLayout, também agrupa os elementos assim como o BoxLayout, mas usando mais linhas
+<StackLayoutExample>:
+    # A orientação nesse modelo é diferente
+    # Podemos usar "left-right top-bottom" que é a padrão, e suas variações, "right-left bottom-top"...
+    # Ficaria assim -- orientation: "lr-tb"
+    orientation: "lr-tb"
+    # O padding é igual ao CSS -- top, right, bottom, left
+    #padding: ("20dp", "40dp")
+    #spacing: "20dp", "20dp"
+
+    #Button:
+        #text: "A"
+        # É necessário especificar o tamanho, pois o modelo não faz isso automaticamente
+        #size_hint: .2, .2
+
+
+
+# Modelo de Grid, colunas e linhas.
+# Usando o @nome_do_modelo, não é necessário ter uma classe no arquivo python, porém só funciona caso não tenha códigos para serem usados
+<GridLayoutExample@GridLayout>:
+    # Precisa de propriedades para funcionar, número de linhas e colunas
+    rows: 2
+    cols: 3
+
+    Button:
+        text: "A"
+        # Só funciona caso a coluna inteira tenha a mesma configuração
+        #size_hint: .5, 1
+        size_hint: None, 1
+        width: "60dp"
+    # Colocando um modelo já criado dentro de outro
+    BoxLayoutExample:
+
+    Button:
+        text: "C"
+
+    Button:
+        text: "D"
+        size_hint: None, 1
+        width: "60dp"
+
+    Button:
+        text: "E"
+
+    Button:
+        text: "F"
+
+
+
+
+
+# Modelo Anchor
+<AnchorLayoutExample>:
+    # Propriedades especiais de posição desse modelo
+    # Para anchor_x: "right, left, center" padrão é center
+    anchor_x: "left"
+    # Para anchor_y: "bottom, top, center" padrão é center
+    anchor_y: "top"
+    BoxLayout:
+        orientation: "vertical"
+        size_hint: .2, .2
+        Button:
+            text: "A"
+
+        Button:
+            text: "B"
+
+
+# Modelo em caixas
+<BoxLayoutExample>:
+    orientation: "horizontal"
+    Button:
+        text: "A"
+        size_hint: 1, .5
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: "10dp"
+        Button:
+            text: "B1"
+            # size: "40dp", "80dp" aqui não vai funcionar, pois o Modelo está "tomando" conta da posição dos elementos.
+            # Para mudar precisa usar o size_hint: 1,1(padrão)
+            # size_hint: 1, 2
+
+        Button:
+            text: "B2"
+
+        Button:
+            text: "B3"
+
+        Button:
+            text: "B4"
+
+
+
+
+    Label:
+        text: "C"
+        # Usando o None, é possível usar valores fixos
+        size_hint: 0.5, None
+        # size: "100dp", "80dp"
+        # Ainda é possível usar as propriedades Width e Height
+        # width: "100dp"
+        height: "60dp"
+        # O pos_hint é um dicionário python
+        # Para Horizontal: "x, center_x, right"
+        # Para Vertical: "y, center_y, top"
+        pos_hint: {"center_y": .5}
+        outline_width: 2
+        outline_color: 245/255, 40/255, 145/255, 0.8
+        color: 245/255, 40/255, 145/255, 0.8
+
+    Button:
+        text: "D"
+        size_hint: .5, .5
+        pos_hint: {"top": 1}
+
+
+# Modelo em Widget
+<MainWidget>:
+    # A indentação é importante!
+    # Um elemento de botão
+    Button:
+        text: "Olá!"
+        # O ponto 0,0 é no canto inferior esquerdo.
+        size: "120dp", "80dp"
+        # O "dp" é density independent pixels, é uma forma mais flexível
+        pos: "100dp", "200dp"
+        color: 25/255, 44/255, 205/255, 0.8
+
+    # Um elemento de label, mostra um texto
+    Label:
+        text: "Olá2!"
+        size: "120dp", "80dp"
+        pos: "240dp", "200dp"
+        # A cor é em RGBA, para cores mais complexas, basta dividir por "255"
+        color: 245/255, 40/255, 145/255, 0.8
